@@ -1,2 +1,2 @@
 # BlackJack
-Im trying to create blackjack simulation
+Im trying to create blackjack simulation (polish version "oczko")
