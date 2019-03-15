@@ -1,8 +1,5 @@
-
-
 import random as rd
 import time
-
 
 
 class Deck:
