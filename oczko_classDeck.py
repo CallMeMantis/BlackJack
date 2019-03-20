@@ -5,20 +5,19 @@ import time
 class Deck:
 
     def __init__(self):
-        # wpisuj punktacje poszczegolnych kart z klawiatury
         self.cards = [2,3,4,5,6,7,8,9,10,"j","d","k","a"]
         self.cards = self.cards * 4
         self.cards_copy = self.cards.copy()
-
 
     def shuffle(self):
         i = 0
         while len(self.cards_copy) != 0:
             a = rd.randint(0, len(self.cards_copy) - 1)
             self.cards[i] = self.cards_copy[a]
-            self.cards_copy.pop(a)   # podobno to zwraca usunięty fragment listy - sprawdź w razie nieznanych problemow
+            self.cards_copy.pop(a)                                  # podobno to zwraca usunięty fragment listy - sprawdź w razie nieznanych problemow
             i = i + 1
         return self.cards
+
 
 class Ai:
     def __init__(self):
@@ -26,7 +25,6 @@ class Ai:
 
 
 class Game:
-
 
     def __init__(self, player_money, cash_rate):
         self.aces_user = 0
@@ -50,8 +48,6 @@ class Game:
 
 
     def main_game(self):
-        # Money(self, self.player_money, self.cash_rate)
-        # Game.deck(self)
         self.deck
         self.deck.shuffle()
         while self.player_money > 0:
@@ -79,15 +75,16 @@ class Game:
                     else:
                         self.player_points = self.player_points + self.cards[self.id]
 
-                    self.used_cards_player.append(self.cards[self.id]) # przydziela do zuzytych kart
+                    self.used_cards_player.append(self.cards[self.id])                  # przydziela do zuzytych kart
                     print("len(cards): ", len(self.cards))
-                    self.cards.pop(self.id)  # usuwa wylosowana karte
                     print("-----------------------------------------")
-                    print("TUTAJ TEST: ", self.id, len(self.cards))     # do badania erroru indeksu
+                    print("TUTAJ TEST: ", self.id, len(self.cards))                     # do badania erroru indeksu
                     print("you've choosed: ", self.cards[self.id])
                     print("your points: ", self.player_points)
                     print("used cards by you: ", self.used_cards_player)
                     print("-----------------------------------------")
+                    self.cards.pop(self.id)  # usuwa wylosowana karte
+
 
                 # JESLI ZACZYNA KOMPUTER
                 if player == "no":
@@ -126,7 +123,6 @@ class Game:
                     print("AI points: ", self.computer_points)
                     print("End of AI round")
                     print("-----------------------------------------")
-                    # print("you've choosed: ", self.cards[self.id], "Twoje punkty: ", self.player_points)
 
     # WARUNKI CZY GRA SKONCZONA
     def is_finished(self):
@@ -179,8 +175,6 @@ class Game:
             return False
 
 
-
-
 # MAIN
 print("------------------------------------")
 player_money = input("How much money does player have: ")
@@ -188,11 +182,10 @@ player_money = int(player_money)
 cash_rate = "abc"
 word = 'abc'
 while type(cash_rate) == type(word):
-    try:                                        # zapewnia ze wybrana wartosc to liczba
+    try:                                                                    # zapewnia ze wybrana wartosc to liczba
         cash_rate = int(cash_rate)
     except Exception:
         cash_rate = input("Select you cash rate: ")
-
 
 print("------------------------------------")
 iteration = 0
