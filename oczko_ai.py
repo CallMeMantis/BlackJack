@@ -63,20 +63,72 @@ class Deck:
 
 
 class Ai:
-    def __init__(self):
-        print("Aktualnie faza testu")
+
+    def __init__(self, cards, computer_points, used_cards_computer, aces_computer, player_yesno_count):
+        self.cards = cards
+        self.computer_points = computer_points
+        self.used_cards_computer = used_cards_computer
+        self.aces_computer = aces_computer
+        self.player_yesno_count = player_yesno_count
+
+    def easy(self):
+        think = rd.randint(0, 2)
+        print("---Start of AI round---")
+        time.sleep(0.5)
+        print("AI is thinking")
+        time.sleep(0.5)
+        # print(".", time.sleep(0.5),".",time.sleep(0.5),".")
+        print(".", sep=' ', end='', flush=True)
+        time.sleep(0.2)
+        print(".", sep=' ', end='', flush=True)
+        time.sleep(0.1)
+        print(".", sep=' ', end='', flush=True)
+        time.sleep(0.1)
+        print()
+
+        does_pick_card = rd.randint(0, 1)
+        if does_pick_card == 0 and self.player_yesno_count <= 2:
+            self.id = rd.randint(0, len(self.cards))
+            if self.cards[self.id] == "j":
+                self.computer_points = self.computer_points + 2
+            elif self.cards[self.id] == "d":
+                self.computer_points = self.computer_points + 3
+            elif self.cards[self.id] == "k":
+                self.computer_points = self.computer_points + 4
+            elif self.cards[self.id] == "a":
+                self.computer_points = self.computer_points + 11
+                self.aces_computer = self.aces_computer + 1
+            else:
+                self.computer_points = self.computer_points + self.cards[self.id]
+
+            self.used_cards_computer.append(self.cards[self.id])
+            self.cards.pop(self.id)  # use it as a method
+        elif does_pick_card == 1 or self.player_yesno_count > 2:
+            print("AI CHOSES NOT TO PICK CARDS")
+
+        print("AI hand: ", self.used_cards_computer)
+        print("AI points: ", self.computer_points)
+        print("End of AI round")
+        print("-----------------------------------------")
+
+
+
+    def return_data(self):
+        return self.cards, self.computer_points, self.used_cards_computer, self.aces_computer
 
 
 class Game:
 
     want_to_play = True
 
-    def __init__(self, player_money, cash_rate,difficulty):
+    def __init__(self, player_money, cash_rate, difficulty):
+        self.player_yesno_count = 0
         self.aces_user = 0
         self.aces_computer = 0
         self.player_points = 0
         self.cash_rate = cash_rate
         self.player_money = player_money
+        self.computer_money = player_money
         self.computer_points = 0
         self.used_cards_player = []
         self.used_cards_computer = []
@@ -85,6 +137,9 @@ class Game:
         self.cards = Deck().cards
 
         self.difficulty = difficulty
+        self.ai = Ai(self.cards, self.computer_points, self.used_cards_computer, self.aces_computer, self.player_yesno_count)
+
+
 
 
     def reset_points(self):
@@ -105,11 +160,13 @@ class Game:
 
                 # KTO ZACZYNA
                 player = input("Do you pick your card? yes / no: ")
+                print("-----------------------------------------")
 
                 # JESLI ZACZYNA GRACZ
                 if (player != "yes") and (player != "no"):
                     print('error #0245 ~ Use answer yes or no')
                 if player == "yes":
+                    self.player_yesno_count += 1
                     self.id = rd.randint(0,len(self.cards) - 1)
                     if self.cards[self.id] == "j":
                         self.player_points = self.player_points + 2
@@ -126,7 +183,6 @@ class Game:
                     self.used_cards_player.append(self.cards[self.id])                  # przydziela do zuzytych kart
                     print("len(cards): ", len(self.cards))
                     print("-----------------------------------------")
-                    print("TUTAJ TEST: ", self.id, len(self.cards))                     # do badania erroru indeksu
                     print("you've choosed: ", self.cards[self.id])
                     print("your points: ", self.player_points)
                     print("used cards by you: ", self.used_cards_player)
@@ -136,41 +192,22 @@ class Game:
 
                 # JESLI ZACZYNA KOMPUTER
                 if player == "no":
-                    think = rd.randint(0,2)
-                    print("---Start of AI round---")
-                    time.sleep(0.5)
-                    print("AI is thinking")
-                    time.sleep(0.5)
-                    # print(".", time.sleep(0.5),".",time.sleep(0.5),".")
-                    print(".", sep=' ', end='', flush=True)
-                    time.sleep(0.2)
-                    print(".", sep=' ', end='', flush=True)
-                    time.sleep(0.1)
-                    print(".", sep=' ', end='', flush=True)
-                    time.sleep(0.1)
-                    print()
+                    self.player_yesno_count = 0
 
-                    self.id = rd.randint(0,len(self.cards))
-                    print("self id: ", self.id)
-                    if self.cards[self.id] == "j":
-                        self.computer_points = self.computer_points + 2
-                    elif self.cards[self.id] == "d":
-                        self.computer_points = self.computer_points + 3
-                    elif self.cards[self.id] == "k":
-                        self.computer_points = self.computer_points + 4
-                    elif self.cards[self.id] == "a":
-                        self.computer_points = self.computer_points + 11
-                        self.aces_computer = self.aces_computer + 1
-                    else:
-                        self.computer_points = self.computer_points + self.cards[self.id]
+                    if self.difficulty == 1:
+                        self.ai.easy()
+                    if self.difficulty == 2:
+                        self.ai.medium()
+                    if self.difficulty == 3:
+                        self.ai.hard()
 
-                    self.used_cards_computer.append(self.cards[self.id])
-                    self.cards.pop(self.id) # use it as a method
-                    print("-----------------------------------------")
-                    print("AI hand: ", self.used_cards_computer)
-                    print("AI points: ", self.computer_points)
-                    print("End of AI round")
-                    print("-----------------------------------------")
+                    print("computer_money: ", self.computer_money)
+                    self.cards = self.ai.return_data()[0]
+                    self.computer_points = self.ai.return_data()[1]
+                    self.used_card_computer= self.ai.return_data()[2]
+                    self.aces_computer= self.ai.return_data()[3]
+
+
             self.want_to_play = input("Do you still want to play? (yes / no): ")
             if self.want_to_play  != "no":
                 self.want_to_play = True
@@ -184,6 +221,7 @@ class Game:
             print('winner is player 1')
             print()
             self.player_money = self.player_money + self.cash_rate
+            self.computer_money = self.computer_money - self.cash_rate
             game.reset_points()
             return False
 
@@ -191,6 +229,7 @@ class Game:
             print()
             print('winner is AI ', )
             print()
+            self.computer_money = self.computer_money + self.cash_rate
             self.player_money = self.player_money - self.cash_rate
             game.reset_points()
             return False
@@ -200,6 +239,7 @@ class Game:
             print('YOU WON - two aces')
             print()
             self.player_money = self.player_money + self.cash_rate
+            self.computer_money = self.computer_money - self.cash_rate
             game.reset_points()
             return False
 
@@ -207,6 +247,7 @@ class Game:
             print()
             print("YOU LOST - computer has two aces")
             print()
+            self.computer_money = self.computer_money + self.cash_rate
             self.player_money = self.player_money - self.cash_rate
             game.reset_points()
             return False
@@ -216,6 +257,7 @@ class Game:
             print("YOU LOST - you've exceeded the limit of points")
             print()
             self.player_money = self.player_money - self.cash_rate
+            self.computer_money = self.computer_money + self.cash_rate
             game.reset_points()
             return False
 
@@ -224,6 +266,7 @@ class Game:
             print("YOU WON - AI exceeded the limit of points")
             print()
             self.player_money = self.player_money + self.cash_rate
+            self.computer_money = self.computer_money- self.cash_rate
             game.reset_points()
             return False
 
