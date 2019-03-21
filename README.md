@@ -11,3 +11,5 @@ Im trying to create blackjack simulation (polish version "oczko")
 21.03
 - Player is now separate class
 - oczko_previous_version is used as backup
+21.03
+- Naprawiony yes-no count bug
