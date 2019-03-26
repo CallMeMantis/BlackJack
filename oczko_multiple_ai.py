@@ -100,7 +100,7 @@ class Ai:
         self.used_cards_computer = used_cards_computer
         self.aces_computer = aces_computer
         self.player_yesno_count = player_yesno_count
-        print(self.player_yesno_count)
+        # print(self.player_yesno_count)
 
     def easy(self):
         think = rd.randint(0, 2)
@@ -108,7 +108,6 @@ class Ai:
         time.sleep(0.5)
         print("AI is thinking")
         time.sleep(0.5)
-        # print(".", time.sleep(0.5),".",time.sleep(0.5),".")
         print(".", sep=' ', end='', flush=True)
         time.sleep(0.2)
         print(".", sep=' ', end='', flush=True)
@@ -197,7 +196,6 @@ class Game:
 
     def __init__(self, player_money, cash_rate, difficulty):
         self.player_yesno_count = 0
-        print("TUUTAAAJ")
         self.aces_user = 0
         self.aces_computer = 0
         self.player_points = 0
