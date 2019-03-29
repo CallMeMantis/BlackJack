@@ -15,4 +15,4 @@ Im trying to create blackjack simulation (polish version "oczko")
 - oczko_previous_version is used as backup
 
 21.03
-- Naprawiony yes-no count bug
+- Repaired yes-no count bug
