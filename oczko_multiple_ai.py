@@ -1,8 +1,6 @@
 import random as rd
 import time
 
-# Gra okienkowa mozna zrobic w QT
-
 
 def starting_parameters():
 
@@ -23,7 +21,7 @@ def starting_parameters():
 
     player_money = "abc"
     while type(player_money) == type(word):
-        try:                                                                    # zapewnia ze wybrana wartosc to liczba
+        try:                                                                    
             player_money = input("How much money does player have: ")
             player_money = int(player_money)
         except Exception:
@@ -31,7 +29,7 @@ def starting_parameters():
 
     cash_rate = "abc"
     while type(cash_rate) == type(word):
-        try:                                                                    # zapewnia ze wybrana wartosc to liczba
+        try:                                                                    
             cash_rate = int(cash_rate)
         except Exception:
             cash_rate = input("Select you cash rate: ")
@@ -51,7 +49,7 @@ class Deck:
         while len(self.cards_copy) != 0:
             a = rd.randint(0, len(self.cards_copy) - 1)
             self.cards[i] = self.cards_copy[a]
-            self.cards_copy.pop(a)                                  # podobno to zwraca usunięty fragment listy - sprawdź w razie nieznanych problemow
+            self.cards_copy.pop(a)                                 
             i = i + 1
         return self.cards
 
@@ -79,14 +77,14 @@ class Player:
         else:
             self.player_points = self.player_points + self.cards[self.id]
 
-        self.used_cards_player.append(self.cards[self.id])  # przydziela do zuzytych kart
+        self.used_cards_player.append(self.cards[self.id]) 
         print("----------------------------------------- PLAYER DATA")
         print("you've choosed: ", self.cards[self.id])
         print("your points: ", self.player_points)
         print("used cards by you: ", self.used_cards_player)
         print("player money: ", self.player_money)
         print("----------------------------------------- END OF PLAYER DATA")
-        self.cards.pop(self.id)  # usuwa wylosowana karte
+        self.cards.pop(self.id) 
 
     def return_data(self):
         return self.cards, self.player_points, self.aces_user, self.used_cards_player, self.player_money
@@ -132,7 +130,7 @@ class Ai:
                 self.computer_points = self.computer_points + self.cards[self.id]
 
             self.used_cards_computer.append(self.cards[self.id])
-            self.cards.pop(self.id)  # use it as a method
+            self.cards.pop(self.id)  
         elif does_pick_card == 1 or self.player_yesno_count > 2:
             print("----------------------------------------- AI DECISION")
             print("AI CHOSES NOT TO PICK CARDS")
@@ -226,12 +224,9 @@ class Game:
         while self.player_money > 0 and self.want_to_play == True:
             game.reset_points()
             while game.is_finished() != False:
-
-
-                # KTO ZACZYNA
+                
                 player = input("Do you pick your card? yes / no: ")
-
-                # JESLI ZACZYNA GRACZ
+                
                 if (player != "yes") and (player != "no"):
                     print('error #0245 ~ Use answer yes or no')
                 if player == "yes":
@@ -245,7 +240,6 @@ class Game:
                     self.used_cards_player = self.player.return_data()[4]
                     self.player_money = self.player.return_data()[5]
 
-                # JESLI ZACZYNA KOMPUTER
                 if player == "no":
                     self.ai = Ai(self.cards, self.computer_points, self.used_cards_computer, self.aces_computer, self.player_yesno_count)
 
@@ -264,14 +258,12 @@ class Game:
                     self.used_card_computer= self.ai.return_data()[2]
                     self.aces_computer= self.ai.return_data()[3]
 
-
             self.want_to_play = input("Do you still want to play? (yes / no): ")
             if self.want_to_play  != "no":
                 self.want_to_play = True
 
         print("End of game")
 
-    # WARUNKI CZY GRA SKONCZONA
     def is_finished(self):
         if self.player_points == 21:
             print()
