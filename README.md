@@ -1,2 +1,4 @@
 # BlackJack
-Im trying to create blackjack simulation (polish version "oczko")
+
+Polish version of blackjack.
+Never had time to make "medium" and "hard" AI.
